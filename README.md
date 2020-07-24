@@ -3,3 +3,6 @@ A model param migrate tool for pytorch
 
 require eel:
 pip install eel
+
+demo:
+![demo](ui_demo.png)
