@@ -56,17 +56,13 @@
                     <div class="layui-card">
                         <div class="layui-card-header">Migration list</div>
                         <div class="layui-card-body">
-                            <div id="migratetree" class="demo-tree"></div>
-                            <div style="width: 100%; margin-top:5%;">
-                                <div class="layui-col-md6" style="padding: 1%">
-                                    <button type="button" class="layui-btn layui-btn-radius layui-btn-fluid">add</button>
+                            <table class="layui-hide" id="migrate-list"></table>
+                            <div class="layui-btn-container">
+                                <div class="layui-btn-group">
+                                    <button type="button" id="add-entry-button" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe624;</i></button>
+                                    <button type="button" id="remove-entry-button" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe67e;</i></button>
                                 </div>
-                                <div class="layui-col-md6" style="padding: 1%">
-                                    <button type="button" class="layui-btn layui-btn-radius layui-btn-fluid layui-btn-danger">delete</button>
-                                </div>
-                            </div>
-                            <div style="width: 100%; margin-top:5%;">
-                                <button type="button" class="layui-btn layui-btn-lg layui-btn-radius layui-btn-fluid layui-btn-normal">APPLY</button>
+                                <button type="button" id="apply-migration-button" class="layui-btn layui-btn-normal" style="width: 50%; float: right;">APPLY</button>
                             </div>
                         </div>
                     </div>
@@ -84,7 +80,7 @@
 
         <script src="layui.js" charset="utf-8"></script>
         <script src="eel_interface.js" charset="utf-8"></script>
-        <script src="param_tree.js" charset="utf-8"></script>
+        <!-- <script src="param_tree.js" charset="utf-8"></script> -->
 
     </body>
 </html>

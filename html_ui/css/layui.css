@@ -493,7 +493,7 @@ a cite{font-style: normal; *cursor:pointer;}
 .layui-card{margin-bottom: 15px; border-radius: 2px; background-color: #fff; box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
 .layui-card:last-child{margin-bottom: 0;}
 .layui-card-header{position: relative; height: 42px; line-height: 42px; padding: 0 15px; border-bottom: 1px solid #f6f6f6; color: #333; border-radius: 2px 2px 0 0; font-size: 14px;}
-.layui-card-body{position: relative; padding: 10px 15px; line-height: 24px;}
+.layui-card-body{position: relative; padding: 10px 15px; line-height: 24px; overflow: auto;}
 .layui-card-body[pad15]{padding: 15px;}
 .layui-card-body[pad20]{padding: 20px;}
 .layui-card-body .layui-table{margin: 5px 0;}
@@ -524,6 +524,8 @@ a cite{font-style: normal; *cursor:pointer;}
 .layui-bg-blue{background-color: #1E9FFF!important; color: #fff!important;} /*蓝*/
 .layui-bg-black{background-color: #393D49!important; color: #fff!important;} /*黑*/
 .layui-bg-gray{background-color: #eee!important; color: #666!important;} /*灰*/
+.layui-bg-grass{background-color: #5FB87850!important; color: #fff!important;} /*浅绿*/
+.layui-bg-skyblue{background-color: #01AAED50!important; color: #fff!important;} /*天蓝*/
 
 /* 边框 */
 .layui-quote-nm, 
@@ -1306,8 +1308,6 @@ body .layui-util-face  .layui-layer-content{padding:0; background-color:#fff; co
 .layui-tree-entry:hover .layui-tree-btnGroup{visibility: visible;}
 .layui-tree-editInput{position: relative; display: inline-block; vertical-align: middle; height: 20px; line-height: 20px; padding: 0 3px; border: none; background-color: rgba(0,0,0,0.05);}
 .layui-tree-emptyText{text-align: center; color: #999;}
-
-
 
 
 /** 动画 **/
