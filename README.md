@@ -1,5 +1,4 @@
 # model-param-migrate-tool-for-pytorch
-## A model param migrate tool for pytorch
 一个可视化的模型参数迁移工具。可在异构的模型之间转移参数值，例如将VGG16的预训练模型中的部分层的参数转移至自己编写的模型中的部分层使用。转移的模型可以是异构的，模型参数的命名也可以不同，在参数树中选择好对应的转移关系即可。
 仅支持pytorch常用的.pth模型。
 ![demo](demo/demo.png)
