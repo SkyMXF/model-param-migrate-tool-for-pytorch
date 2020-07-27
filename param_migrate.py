@@ -1,10 +1,11 @@
 import os
 import glob
+import collections
 
 import torch
 import eel
 
-MODEL_DIR = os.path.join("..", "pretrained")
+MODEL_DIR = os.path.join("models")
 src_params_tree = None
 aim_params_tree = None
 migration_entry_list = []
@@ -14,6 +15,14 @@ src_model_path = None
 aim_model_path = None
 
 def load_model(model_path):
+
+    model_dict = torch.load(model_path)
+    if not isinstance(model_dict, collections.OrderedDict):    # this .pth may be saved as a nn.module but not dict:
+        raise Exception("")
+
+    return model_dict
+
+def load_full_module(model_path):
     return torch.load(model_path)
 
 def save_model(model, model_path):
@@ -110,7 +119,10 @@ def eel_get_model_list():
 def load_src_tree(model_name):
     global src_params_tree, src_model_path
     src_model_path = os.path.join(MODEL_DIR, model_name)
-    src_params_tree = get_params_tree(load_model(src_model_path))
+    try:
+        src_params_tree = get_params_tree(load_model(src_model_path))
+    except Exception as e:
+        return ["FAILED to load src model '%s'. Detail: %s. HINT: If this .pth is saved by 'torch.save(model, path)', try to convert it into 'torch.save(model.state_dict(), path)'"%(model_name, str(e)), []]
     
     # convert to layui tree struct
     global id_for_tree_node
@@ -118,13 +130,16 @@ def load_src_tree(model_name):
     list_for_view = []
     parse_tree_for_view(src_params_tree, list_for_view)
 
-    return list_for_view
+    return ["", list_for_view]
 
 @eel.expose
 def load_aim_tree(model_name):
     global aim_params_tree, aim_model_path
     aim_model_path = os.path.join(MODEL_DIR, model_name)
-    aim_params_tree = get_params_tree(load_model(aim_model_path))
+    try:
+        aim_params_tree = get_params_tree(load_model(aim_model_path))
+    except Exception as e:
+        return ["FAILED to load aim model '%s'. Detail: %s. HINT: If this .pth is saved by 'torch.save(model, path)', try to convert it into 'torch.save(model.state_dict(), path)'"%(model_name, str(e)), []]
     
     # convert to layui tree struct
     global id_for_tree_node
@@ -132,7 +147,7 @@ def load_aim_tree(model_name):
     list_for_view = []
     parse_tree_for_view(aim_params_tree, list_for_view)
 
-    return list_for_view
+    return ["", list_for_view]
 
 def parse_tree_for_view(now_node_list:list, now_view_list:list):
     global id_for_tree_node
@@ -160,7 +175,7 @@ def add_migration_entry(src_sub_view_node:dict, aim_sub_view_node:dict):
     matched_leafs = []
     find_match_node(src_sub_real_node, aim_sub_real_node, matched_leafs)
     if len(matched_leafs) <= 0:
-        return ["Operation FAILED: Could not find any matched nodes.\nHINT: Only those nodes with the same shape(or sub nodes with the same name and shape) will be matched.", migration_view_list]
+        return ["Operation FAILED: Could not find any matched nodes. HINT: Only those nodes with the same shape(or sub nodes with the same name and shape) will be matched.", migration_view_list]
 
     # add into migrate list
     for match_tuple in matched_leafs:
@@ -231,20 +246,19 @@ def apply_migration():
     global migration_entry_list, migration_view_list
     entry_copy = migration_entry_list[:]
     view_copy = migration_view_list[:]
-    """
-    for migrate_entry in migration_entry_list:
-        apply_entry(src_model_dict, aim_model_dict, migrate_entry)
-    save_model(aim_model_dict, aim_model_path + ".migrated")
-    migration_entry_list = []
-    migration_view_list = []
-    return ["", migration_view_list]
-    """
     try:
+        # apply all entrys
         entry_idx = 0
+        migrate_log = "src_param,aim_param,shape\n"
         for migrate_entry in migration_entry_list:
             apply_entry(src_model_dict, aim_model_dict, migrate_entry)
+            migrate_log += "\"%s\",\"%s\",\"%s\"\n"%(migrate_entry["src_path"], migrate_entry["aim_path"], str(list(migrate_entry["src"]["shape"])))
             entry_idx += 1
+
+        # save new model
         save_model(aim_model_dict, aim_model_path + ".migrated")
+        with open(aim_model_path + ".csv", "w") as f:
+            print(migrate_log, file=f)
         migration_entry_list = []
         migration_view_list = []
         message = "Migration succeeded. Saved new model params to %s, remember to remove the '.migrated' in the file name before use it."%(aim_model_path + ".migrated")

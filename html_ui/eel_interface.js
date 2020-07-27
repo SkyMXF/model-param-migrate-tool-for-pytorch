@@ -43,7 +43,17 @@ layui.use(['layer', 'tree', 'util', 'table'], function(){
     function onChooseSrcPth(){
         nowChosenSrcNode = null;
         eel.load_src_tree(srcFileSelect.value)().then(
-            function(tree_dict){
+            function(data){
+                // data: [message, tree_dict]
+                message = data[0];
+                tree_dict = data[1];
+                if (message.length != 0){
+                    layer.msg(message, {
+                        time: 20000, // closed after n ms
+                        btn: ['OK']
+                    });
+                    return;
+                };
                 tree_dict = parseTreeForView(tree_dict);
 
                 tree.render({
@@ -62,17 +72,20 @@ layui.use(['layer', 'tree', 'util', 'table'], function(){
         );
     };
 
-    function highlightAllChildren(node){
-
-    };
-    function lowlightAllChildren(node){
-
-    };
-
     function onChooseAimPth(){
         nowChosenAimNode = null;
         eel.load_aim_tree(aimFileSelect.value)().then(
-            function(tree_dict){
+            function(data){
+                // data: [message, tree_dict]
+                message = data[0];
+                tree_dict = data[1];
+                if (message.length != 0){
+                    layer.msg(message, {
+                        time: 20000, // closed after n ms
+                        btn: ['OK']
+                    });
+                    return;
+                };
                 tree_dict = parseTreeForView(tree_dict);
 
                 tree.render({
@@ -116,7 +129,7 @@ layui.use(['layer', 'tree', 'util', 'table'], function(){
     function addMigrationEntry(){
         if ((nowChosenSrcNode === null) || (nowChosenSrcNode === null)){
             layer.msg("Operation FAILED: Please choose nodes in src and aim params tree first.", {
-                time: 10000, // closed after n ms
+                time: 20000, // closed after n ms
                 btn: ['OK']
             });
             return;
@@ -125,17 +138,14 @@ layui.use(['layer', 'tree', 'util', 'table'], function(){
             function(data){
                 // data: [message, migrate_list]
                 message = data[0];
-                if (message.length == 0){
-                    // if message is empty, operation succeed
-                    migrate_list = data[1];
-                    updateMigrateListView(migrate_list);
-                }
-                else{
+                migrate_list = data[1];
+                if (message.length > 0){
                     layer.msg(message, {
                         time: 20000, // closed after n ms
                         btn: ['OK']
                     });
                 };
+                updateMigrateListView(migrate_list);
             }
         );
     };
@@ -153,17 +163,14 @@ layui.use(['layer', 'tree', 'util', 'table'], function(){
             function(data){
                 // data: [message, migrate_list]
                 message = data[0];
-                if (message.length == 0){
-                    // if message is empty, operation succeed
-                    migrate_list = data[1];
-                    updateMigrateListView(migrate_list);
-                }
-                else{
+                migrate_list = data[1];
+                if (message.length > 0){
                     layer.msg(message, {
                         time: 20000, // closed after n ms
                         btn: ['OK']
                     });
                 };
+                updateMigrateListView(migrate_list);
             }
         );
     };
@@ -174,11 +181,8 @@ layui.use(['layer', 'tree', 'util', 'table'], function(){
             function(data){
                 // data: [message, migrate_list]
                 message = data[0];
-                if (message.length == 0){
-                    // if message is empty, operation succeed
-                    migrate_list = data[1];
-                }
-                else{
+                migrate_list = data[1];
+                if (message.length > 0){
                     layer.msg(message, {
                         time: 20000, // closed after n ms
                         btn: ['OK']

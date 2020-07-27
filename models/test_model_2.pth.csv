@@ -1,0 +1,9 @@
+src_param,aim_param,shape
+"encoder.8.0.weight","en.conv3.0.weight","[32]"
+"encoder.8.0.bias","en.conv3.0.bias","[32]"
+"encoder.8.0.running_mean","en.conv3.0.running_mean","[32]"
+"encoder.8.0.running_var","en.conv3.0.running_var","[32]"
+"encoder.8.0.num_batches_tracked","en.conv3.0.num_batches_tracked","[]"
+"encoder.8.1.weight","en.conv3.1.weight","[32, 32, 1, 1]"
+"encoder.8.1.bias","en.conv3.1.bias","[32]"
+
