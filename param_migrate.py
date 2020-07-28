@@ -17,8 +17,8 @@ aim_model_path = None
 def load_model(model_path):
 
     model_dict = torch.load(model_path)
-    if not isinstance(model_dict, collections.OrderedDict):    # this .pth may be saved as a nn.module but not dict:
-        raise Exception("")
+    if (not isinstance(model_dict, collections.OrderedDict)) and (not isinstance(model_dict, dict)):    # this .pth may be saved as a nn.module but not dict:
+        raise Exception(".pth must save an dict or OrderedDict")
 
     return model_dict
 
