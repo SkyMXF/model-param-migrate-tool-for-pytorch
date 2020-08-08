@@ -185,9 +185,9 @@ def add_migration_entry(src_sub_view_node:dict, aim_sub_view_node:dict):
         src_node_path, src_node_str_path = get_node_path(match_tuple[0])
         aim_node_path, aim_node_str_path = get_node_path(match_tuple[1])
 
-        # append
-        migration_entry_list.append({"src": match_tuple[0], "src_path": src_node_str_path, "aim": match_tuple[1], "aim_path": aim_node_str_path})
-        migration_view_list.append({"src": src_node_str_path, "aim": aim_node_str_path, "shape": str(list(match_tuple[0]["shape"]))})
+        # append on head
+        migration_entry_list.insert(0, {"src": match_tuple[0], "src_path": src_node_str_path, "aim": match_tuple[1], "aim_path": aim_node_str_path})
+        migration_view_list.insert(0, {"src": src_node_str_path, "aim": aim_node_str_path, "shape": str(list(match_tuple[0]["shape"]))})
 
     return ["", migration_view_list]
 

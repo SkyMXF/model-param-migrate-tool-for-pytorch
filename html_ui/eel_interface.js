@@ -110,20 +110,24 @@ layui.use(['layer', 'tree', 'util', 'table'], function(){
     };
 
     // migrate list view
+    migrateTable = table.render({
+        elem: '#migrate-list'
+        ,limit: Number.MAX_VALUE
+        ,data: []
+        ,cols: [[
+            {field:"choose", title:"", type:'checkbox', width:"10%", fixed:"left"}
+            ,{field:'src', width:"50%", title: 'src', sort: true}
+            ,{field:'aim', width:"50%", title: 'aim', sort: true}
+            ,{field:'shape', width: "30%", title: 'shape'}
+        ]]
+        ,height: "400%"
+    });
     function updateMigrateListView(migrate_list){
         
-        table.render({
-            elem: '#migrate-list'
-            ,data: migrate_list
-            ,cols: [[
-                {field:"choose", title:"", type:'checkbox', width:"10%", fixed:"left"}
-                ,{field:'src', width:"35%", title: 'src', sort: true}
-                ,{field:'aim', width:"35%", title: 'aim', sort: true}
-                ,{field:'shape', width: "30%", title: 'shape'}
-            ]]
+        migrateTable.reload({
+            data: migrate_list
         });
     };
-    updateMigrateListView([]);
 
     // button event
     function addMigrationEntry(){
