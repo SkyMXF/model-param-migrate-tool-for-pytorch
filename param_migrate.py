@@ -21,6 +21,9 @@ def load_model(model_path):
     model_dict = torch.load(model_path, map_location=device)
     if (not isinstance(model_dict, collections.OrderedDict)) and (not isinstance(model_dict, dict)):    # this .pth may be saved as a nn.module but not dict:
         raise Exception(".pth must save an dict or OrderedDict")
+    if isinstance(model_dict, dict):
+        if "state_dict" in model_dict.keys():
+            model_dict = model_dict["state_dict"]
 
     return model_dict
 
